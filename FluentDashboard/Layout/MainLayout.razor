@@ -1,5 +1,4 @@
-﻿@* Fluent UI Blazor v5 Dashboard Layout *@
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
 
 <FluentLayout>
@@ -21,10 +20,6 @@
                           OnClick="@SwitchThemeAsync"
                           Appearance="ButtonAppearance.Transparent"
                           Title="Switch to Light/Dark theme" />
-
-            <FluentText Size="TextSize.Size200" Color="Color.Custom" CustomColor="white">
-                Fluent UI Blazor v5
-            </FluentText>
         </FluentStack>
     </FluentLayoutItem>
 
@@ -47,8 +42,8 @@
         <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
             <FluentText Size="TextSize.Size200">
                 &copy; @DateTime.Now.Year Fluent Dashboard &mdash; Built with
-                <FluentLink Href="https://github.com/microsoft/fluentui-blazor/tree/dev-v5" Target="LinkTarget.Blank">
-                    Fluent UI Blazor v5
+                <FluentLink Href="https://github.com/microsoft/fluentui-blazor" Target="LinkTarget.Blank">
+                    Fluent UI Blazor
                 </FluentLink>
             </FluentText>
         </FluentStack>
