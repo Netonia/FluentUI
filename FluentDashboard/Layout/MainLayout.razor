@@ -1,5 +1,6 @@
 ﻿@* Fluent UI Blazor v5 Dashboard Layout *@
 @inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
 
 <FluentLayout>
 
@@ -14,6 +15,13 @@
                 Fluent Dashboard
             </FluentText>
             <FluentSpacer />
+
+            @* Dark/Light Theme Toggle *@
+            <FluentButton IconStart="@(new Icons.Regular.Size20.DarkTheme().WithColor("var(--colorNeutralForegroundOnBrand)"))"
+                          OnClick="@SwitchThemeAsync"
+                          Appearance="ButtonAppearance.Transparent"
+                          Title="Switch to Light/Dark theme" />
+
             <FluentText Size="TextSize.Size200" Color="Color.Custom" CustomColor="white">
                 Fluent UI Blazor v5
             </FluentText>
@@ -49,3 +57,10 @@
 </FluentLayout>
 
 <FluentProviders />
+
+@code {
+    private async Task SwitchThemeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("Blazor.theme.switchTheme");
+    }
+}
