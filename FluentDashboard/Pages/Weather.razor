@@ -1,0 +1,51 @@
+@page "/weather"
+@inject HttpClient Http
+
+<PageTitle>Weather</PageTitle>
+
+<FluentText Size="TextSize.Size600" Weight="TextWeight.Bold" Margin="@Margin.Bottom4">
+    Weather Forecast
+</FluentText>
+
+<FluentText Size="TextSize.Size300" Margin="@Margin.Bottom4"
+            Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+    This component demonstrates fetching data and rendering it with a Fluent UI Data Grid.
+</FluentText>
+
+@if (_forecasts is null)
+{
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px" HorizontalAlignment="HorizontalAlignment.Center"
+                 Style="padding: 48px;">
+        <FluentSpinner />
+        <FluentText>Loading weather data...</FluentText>
+    </FluentStack>
+}
+else
+{
+    <FluentCard>
+        <FluentDataGrid Items="@_forecasts" GridTemplateColumns="1fr 0.8fr 0.8fr 1fr" Style="width: 100%;">
+            <PropertyColumn Property="@(f => f.Date)" Title="Date" Format="ddd, MMM dd" Sortable="true" />
+            <PropertyColumn Property="@(f => f.TemperatureC)" Title="Temp. (C)" Sortable="true" />
+            <PropertyColumn Property="@(f => f.TemperatureF)" Title="Temp. (F)" Sortable="true" />
+            <PropertyColumn Property="@(f => f.Summary)" Title="Summary" Sortable="true" />
+        </FluentDataGrid>
+    </FluentCard>
+}
+
+@code {
+    private IQueryable<WeatherForecast>? _forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        _forecasts = data?.AsQueryable();
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

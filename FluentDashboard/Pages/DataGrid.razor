@@ -1,0 +1,91 @@
+@page "/datagrid"
+
+<PageTitle>Data Grid</PageTitle>
+
+<FluentText Size="TextSize.Size600" Weight="TextWeight.Bold" Margin="@Margin.Bottom4">
+    Data Grid
+</FluentText>
+
+<FluentText Size="TextSize.Size300" Margin="@Margin.Bottom4"
+            Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+    Full-featured data grid with sorting, pagination, and template columns.
+</FluentText>
+
+<FluentCard>
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16px">
+
+        <FluentTextInput @bind-Value="_searchTerm"
+                         Placeholder="Search employees..."
+                         Style="max-width: 300px;"
+                         @oninput="OnSearchChanged" />
+
+        <FluentDataGrid Items="@FilteredEmployees"
+                        Pagination="@_pagination"
+                        GridTemplateColumns="0.3fr 1fr 1fr 0.8fr 0.6fr 0.5fr"
+                        Style="width: 100%;">
+            <PropertyColumn Property="@(e => e.Id)" Title="ID" Sortable="true" />
+            <PropertyColumn Property="@(e => e.Name)" Title="Name" Sortable="true" />
+            <PropertyColumn Property="@(e => e.Email)" Title="Email" Sortable="true" />
+            <PropertyColumn Property="@(e => e.Department)" Title="Department" Sortable="true" />
+            <PropertyColumn Property="@(e => e.Salary)" Title="Salary" Format="C0" Sortable="true" />
+            <TemplateColumn Title="Actions">
+                <FluentButton Appearance="ButtonAppearance.Subtle"
+                              IconOnly="true"
+                              IconStart="@(new Icons.Regular.Size20.Edit())"
+                              OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+
+        <FluentPaginator State="@_pagination" />
+    </FluentStack>
+</FluentCard>
+
+@code {
+    private string _searchTerm = string.Empty;
+    private PaginationState _pagination = new() { ItemsPerPage = 8 };
+
+    private IQueryable<Employee> FilteredEmployees =>
+        string.IsNullOrWhiteSpace(_searchTerm)
+            ? _employees.AsQueryable()
+            : _employees.Where(e =>
+                e.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                e.Email.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                e.Department.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
+            .AsQueryable();
+
+    private void OnSearchChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value?.ToString() ?? string.Empty;
+    }
+
+    private void Edit(Employee employee)
+    {
+        // Placeholder for edit action
+    }
+
+    private readonly List<Employee> _employees = new()
+    {
+        new(1, "Sophia Anderson", "sophia.anderson@contoso.com", "Engineering", 125000),
+        new(2, "Liam Johnson", "liam.johnson@contoso.com", "Marketing", 95000),
+        new(3, "Olivia Williams", "olivia.williams@contoso.com", "Engineering", 118000),
+        new(4, "Noah Brown", "noah.brown@contoso.com", "Sales", 88000),
+        new(5, "Emma Davis", "emma.davis@contoso.com", "Human Resources", 92000),
+        new(6, "James Wilson", "james.wilson@contoso.com", "Engineering", 132000),
+        new(7, "Ava Martinez", "ava.martinez@contoso.com", "Finance", 105000),
+        new(8, "William Taylor", "william.taylor@contoso.com", "Sales", 91000),
+        new(9, "Isabella Thomas", "isabella.thomas@contoso.com", "Marketing", 97000),
+        new(10, "Benjamin Garcia", "benjamin.garcia@contoso.com", "Engineering", 128000),
+        new(11, "Mia Rodriguez", "mia.rodriguez@contoso.com", "Human Resources", 89000),
+        new(12, "Lucas Lee", "lucas.lee@contoso.com", "Finance", 110000),
+        new(13, "Charlotte Clark", "charlotte.clark@contoso.com", "Engineering", 120000),
+        new(14, "Henry Lewis", "henry.lewis@contoso.com", "Sales", 93000),
+        new(15, "Amelia Walker", "amelia.walker@contoso.com", "Marketing", 98000),
+        new(16, "Alexander Hall", "alexander.hall@contoso.com", "Engineering", 135000),
+        new(17, "Harper Allen", "harper.allen@contoso.com", "Finance", 108000),
+        new(18, "Daniel Young", "daniel.young@contoso.com", "Sales", 86000),
+        new(19, "Evelyn King", "evelyn.king@contoso.com", "Human Resources", 94000),
+        new(20, "Sebastian Wright", "sebastian.wright@contoso.com", "Engineering", 127000),
+    };
+
+    private record Employee(int Id, string Name, string Email, string Department, decimal Salary);
+}

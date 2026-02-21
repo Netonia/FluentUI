@@ -1,0 +1,69 @@
+@page "/counter"
+@inject IDialogService DialogService
+
+<PageTitle>Counter</PageTitle>
+
+<FluentText Size="TextSize.Size600" Weight="TextWeight.Bold" Margin="@Margin.Bottom4">
+    Counter
+</FluentText>
+
+<FluentCard Style="max-width: 400px;">
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16px">
+
+        <FluentText Size="TextSize.Size300">
+            Click the button to increment the counter. This page demonstrates interactive Fluent UI components.
+        </FluentText>
+
+        <FluentDivider />
+
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="16px">
+            <FluentIcon Value="@(new Icons.Regular.Size24.NumberSymbolSquare())" Color="Color.Primary" />
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentText Size="TextSize.Size200" Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+                    Current count
+                </FluentText>
+                <span class="stat-value">@currentCount</span>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentDivider />
+
+        <FluentStack HorizontalGap="8px">
+            <FluentButton Appearance="ButtonAppearance.Primary"
+                          IconStart="@(new Icons.Regular.Size20.Add())"
+                          OnClick="@IncrementCountAsync">
+                Increment
+            </FluentButton>
+            <FluentButton Appearance="ButtonAppearance.Outline"
+                          IconStart="@(new Icons.Regular.Size20.ArrowReset())"
+                          OnClick="@ResetCount">
+                Reset
+            </FluentButton>
+        </FluentStack>
+
+        <FluentProgressBar Max="100" Value="@Math.Min(currentCount, 100)"
+                           Style="width: 100%;" />
+        <FluentText Size="TextSize.Size200" Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+            Progress to 100: @Math.Min(currentCount, 100)%
+        </FluentText>
+
+    </FluentStack>
+</FluentCard>
+
+@code {
+    private int currentCount = 0;
+
+    private async Task IncrementCountAsync()
+    {
+        currentCount++;
+        if (currentCount % 10 == 0)
+        {
+            await DialogService.ShowInfoAsync($"Milestone reached: {currentCount}!");
+        }
+    }
+
+    private void ResetCount()
+    {
+        currentCount = 0;
+    }
+}

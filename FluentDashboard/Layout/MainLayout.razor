@@ -1,0 +1,51 @@
+﻿@* Fluent UI Blazor v5 Dashboard Layout *@
+@inherits LayoutComponentBase
+
+<FluentLayout>
+
+    <!-- Header -->
+    <FluentLayoutItem Area="@LayoutArea.Header"
+                      Style="background: var(--colorBrandBackground); color: var(--colorNeutralForegroundOnBrand);">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="padding: 0 16px; height: 48px;">
+            <FluentLayoutHamburger />
+            <FluentIcon Value="@(new Icons.Regular.Size24.Board())" Color="Color.Custom" CustomColor="white" />
+            <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400"
+                        Color="Color.Custom" CustomColor="white">
+                Fluent Dashboard
+            </FluentText>
+            <FluentSpacer />
+            <FluentText Size="TextSize.Size200" Color="Color.Custom" CustomColor="white">
+                Fluent UI Blazor v5
+            </FluentText>
+        </FluentStack>
+    </FluentLayoutItem>
+
+    <!-- Navigation -->
+    <FluentLayoutItem Area="@LayoutArea.Navigation"
+                      Width="250px"
+                      Style="border-right: var(--strokeWidthThin) solid var(--colorNeutralStroke1);">
+        <NavMenu />
+    </FluentLayoutItem>
+
+    <!-- Content -->
+    <FluentLayoutItem Area="@LayoutArea.Content"
+                      Padding="@Padding.All4">
+        @Body
+    </FluentLayoutItem>
+
+    <!-- Footer -->
+    <FluentLayoutItem Area="@LayoutArea.Footer"
+                      Style="background: var(--colorNeutralBackground3); padding: 8px 16px; border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke1);">
+        <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+            <FluentText Size="TextSize.Size200">
+                &copy; @DateTime.Now.Year Fluent Dashboard &mdash; Built with
+                <FluentLink Href="https://github.com/microsoft/fluentui-blazor/tree/dev-v5" Target="LinkTarget.Blank">
+                    Fluent UI Blazor v5
+                </FluentLink>
+            </FluentText>
+        </FluentStack>
+    </FluentLayoutItem>
+
+</FluentLayout>
+
+<FluentProviders />

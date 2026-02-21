@@ -1,0 +1,110 @@
+@page "/settings"
+@inject IDialogService DialogService
+
+<PageTitle>Settings</PageTitle>
+
+<FluentText Size="TextSize.Size600" Weight="TextWeight.Bold" Margin="@Margin.Bottom4">
+    Settings
+</FluentText>
+
+<FluentText Size="TextSize.Size300" Margin="@Margin.Bottom4"
+            Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+    Configure your dashboard preferences and account settings.
+</FluentText>
+
+<FluentStack Orientation="Orientation.Vertical" VerticalGap="16px" Style="max-width: 600px;">
+
+    @* Profile Section *@
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="12px">
+            <FluentText Size="TextSize.Size400" Weight="TextWeight.Semibold">
+                <FluentIcon Value="@(new Icons.Regular.Size20.Person())" Style="margin-right: 8px;" />
+                Profile
+            </FluentText>
+            <FluentDivider />
+            <FluentTextInput Label="Display Name" @bind-Value="_displayName" Style="width: 100%;" />
+            <FluentTextInput Label="Email" @bind-Value="_email" Style="width: 100%;" />
+            <FluentSelect TOption="string" TValue="string" Label="Role" @bind-Value="_role" Style="width: 100%;">
+                <FluentOption TOption="string" Value="@("admin")">Administrator</FluentOption>
+                <FluentOption TOption="string" Value="@("editor")">Editor</FluentOption>
+                <FluentOption TOption="string" Value="@("viewer")">Viewer</FluentOption>
+            </FluentSelect>
+        </FluentStack>
+    </FluentCard>
+
+    @* Notifications Section *@
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="12px">
+            <FluentText Size="TextSize.Size400" Weight="TextWeight.Semibold">
+                <FluentIcon Value="@(new Icons.Regular.Size20.Alert())" Style="margin-right: 8px;" />
+                Notifications
+            </FluentText>
+            <FluentDivider />
+            <FluentSwitch @bind-Value="_emailNotifications" Label="Email notifications" />
+            <FluentSwitch @bind-Value="_pushNotifications" Label="Push notifications" />
+            <FluentSwitch @bind-Value="_weeklyDigest" Label="Weekly digest" />
+        </FluentStack>
+    </FluentCard>
+
+    @* Appearance Section *@
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="12px">
+            <FluentText Size="TextSize.Size400" Weight="TextWeight.Semibold">
+                <FluentIcon Value="@(new Icons.Regular.Size20.PaintBrush())" Style="margin-right: 8px;" />
+                Appearance
+            </FluentText>
+            <FluentDivider />
+            <FluentSelect TOption="string" TValue="string" Label="Language" @bind-Value="_language" Style="width: 100%;">
+                <FluentOption TOption="string" Value="@("en")">English</FluentOption>
+                <FluentOption TOption="string" Value="@("fr")">French</FluentOption>
+                <FluentOption TOption="string" Value="@("de")">German</FluentOption>
+                <FluentOption TOption="string" Value="@("es")">Spanish</FluentOption>
+            </FluentSelect>
+            <FluentSlider Label="Dashboard refresh interval (seconds)" @bind-Value="_refreshInterval"
+                          Min="5" Max="120" Step="5" Style="width: 100%;" />
+            <FluentText Size="TextSize.Size200">Current: @_refreshInterval seconds</FluentText>
+        </FluentStack>
+    </FluentCard>
+
+    @* Save *@
+    <FluentStack HorizontalGap="8px">
+        <FluentButton Appearance="ButtonAppearance.Primary"
+                      IconStart="@(new Icons.Regular.Size20.Save())"
+                      OnClick="@SaveSettingsAsync">
+            Save Settings
+        </FluentButton>
+        <FluentButton Appearance="ButtonAppearance.Outline"
+                      OnClick="@ResetSettings">
+            Reset
+        </FluentButton>
+    </FluentStack>
+
+</FluentStack>
+
+@code {
+    private string _displayName = "John Doe";
+    private string _email = "john.doe@contoso.com";
+    private string _role = "admin";
+    private bool _emailNotifications = true;
+    private bool _pushNotifications = false;
+    private bool _weeklyDigest = true;
+    private string _language = "en";
+    private int _refreshInterval = 30;
+
+    private async Task SaveSettingsAsync()
+    {
+        await DialogService.ShowInfoAsync("Settings saved successfully!");
+    }
+
+    private void ResetSettings()
+    {
+        _displayName = "John Doe";
+        _email = "john.doe@contoso.com";
+        _role = "admin";
+        _emailNotifications = true;
+        _pushNotifications = false;
+        _weeklyDigest = true;
+        _language = "en";
+        _refreshInterval = 30;
+    }
+}

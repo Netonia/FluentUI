@@ -1,0 +1,135 @@
+﻿@page "/"
+
+<PageTitle>Dashboard - Home</PageTitle>
+
+<FluentText Size="TextSize.Size600" Weight="TextWeight.Bold" Margin="@Margin.Bottom4">
+    Dashboard Overview
+</FluentText>
+
+<FluentText Size="TextSize.Size300" Margin="@Margin.Bottom4"
+            Color="Color.Custom" CustomColor="var(--colorNeutralForeground2)">
+    Welcome to the Fluent Dashboard. Here's a summary of your key metrics.
+</FluentText>
+
+@* KPI Cards *@
+<div class="dashboard-grid" style="margin-bottom: 24px;">
+
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size24.People())" Color="Color.Primary" />
+                <FluentText Size="TextSize.Size300" Weight="TextWeight.Semibold">Total Users</FluentText>
+            </FluentStack>
+            <span class="stat-value">12,847</span>
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size16.ArrowTrending())" Color="Color.Success" />
+                <FluentText Size="TextSize.Size200" class="stat-change-up">+12.5% from last month</FluentText>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size24.ShoppingBag())" Color="Color.Primary" />
+                <FluentText Size="TextSize.Size300" Weight="TextWeight.Semibold">Revenue</FluentText>
+            </FluentStack>
+            <span class="stat-value">$84,254</span>
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size16.ArrowTrending())" Color="Color.Success" />
+                <FluentText Size="TextSize.Size200" class="stat-change-up">+8.2% from last month</FluentText>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size24.Cart())" Color="Color.Primary" />
+                <FluentText Size="TextSize.Size300" Weight="TextWeight.Semibold">Orders</FluentText>
+            </FluentStack>
+            <span class="stat-value">1,429</span>
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size16.ArrowTrendingDown())" Color="Color.Error" />
+                <FluentText Size="TextSize.Size200" class="stat-change-down">-3.1% from last month</FluentText>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+
+    <FluentCard>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size24.Star())" Color="Color.Primary" />
+                <FluentText Size="TextSize.Size300" Weight="TextWeight.Semibold">Satisfaction</FluentText>
+            </FluentStack>
+            <span class="stat-value">94.2%</span>
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new Icons.Regular.Size16.ArrowTrending())" Color="Color.Success" />
+                <FluentText Size="TextSize.Size200" class="stat-change-up">+1.8% from last month</FluentText>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+
+</div>
+
+@* Recent Activity *@
+<FluentText Size="TextSize.Size500" Weight="TextWeight.Semibold" Margin="@Margin.Bottom3">
+    Recent Activity
+</FluentText>
+
+<FluentCard Style="margin-bottom: 24px;">
+    <FluentDataGrid Items="@_activities" GridTemplateColumns="0.5fr 1fr 1fr 0.8fr 0.5fr" Style="width: 100%;">
+        <PropertyColumn Property="@(a => a.Id)" Title="ID" />
+        <PropertyColumn Property="@(a => a.User)" Title="User" />
+        <PropertyColumn Property="@(a => a.Action)" Title="Action" />
+        <PropertyColumn Property="@(a => a.Date)" Title="Date" Format="yyyy-MM-dd HH:mm" />
+        <TemplateColumn Title="Status">
+            <FluentBadge Appearance="@GetStatusAppearance(context.Status)">
+                @context.Status
+            </FluentBadge>
+        </TemplateColumn>
+    </FluentDataGrid>
+</FluentCard>
+
+@* Quick Actions *@
+<FluentText Size="TextSize.Size500" Weight="TextWeight.Semibold" Margin="@Margin.Bottom3">
+    Quick Actions
+</FluentText>
+
+<FluentStack HorizontalGap="12px" Wrap="true">
+    <FluentButton Appearance="ButtonAppearance.Primary"
+                  IconStart="@(new Icons.Regular.Size20.Add())">
+        New Report
+    </FluentButton>
+    <FluentButton Appearance="ButtonAppearance.Outline"
+                  IconStart="@(new Icons.Regular.Size20.ArrowDownload())">
+        Export Data
+    </FluentButton>
+    <FluentButton Appearance="ButtonAppearance.Outline"
+                  IconStart="@(new Icons.Regular.Size20.Mail())">
+        Send Summary
+    </FluentButton>
+</FluentStack>
+
+@code {
+    private IQueryable<ActivityItem> _activities = new List<ActivityItem>
+    {
+        new(1, "Alice Martin", "Created new project", DateTime.Now.AddHours(-1), "Completed"),
+        new(2, "Bob Chen", "Updated dashboard", DateTime.Now.AddHours(-3), "Completed"),
+        new(3, "Carol White", "Submitted report", DateTime.Now.AddHours(-5), "Pending"),
+        new(4, "Dave Kumar", "Deleted old records", DateTime.Now.AddDays(-1), "Completed"),
+        new(5, "Eve Johnson", "Uploaded documents", DateTime.Now.AddDays(-1), "In Progress"),
+        new(6, "Frank Lee", "Modified settings", DateTime.Now.AddDays(-2), "Completed"),
+        new(7, "Grace Park", "Reviewed analytics", DateTime.Now.AddDays(-2), "Pending"),
+    }.AsQueryable();
+
+    private BadgeAppearance GetStatusAppearance(string status) => status switch
+    {
+        "Completed" => BadgeAppearance.Filled,
+        "Pending" => BadgeAppearance.Tint,
+        "In Progress" => BadgeAppearance.Ghost,
+        _ => BadgeAppearance.Outline,
+    };
+
+    private record ActivityItem(int Id, string User, string Action, DateTime Date, string Status);
+}
