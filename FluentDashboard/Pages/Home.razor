@@ -84,9 +84,9 @@
         <PropertyColumn Property="@(a => a.Action)" Title="Action" />
         <PropertyColumn Property="@(a => a.Date)" Title="Date" Format="yyyy-MM-dd HH:mm" />
         <TemplateColumn Title="Status">
-            <FluentBadge Appearance="@GetStatusAppearance(context.Status)">
+            <span style="@GetStatusStyle(context.Status)">
                 @context.Status
-            </FluentBadge>
+            </span>
         </TemplateColumn>
     </FluentDataGrid>
 </FluentCard>
@@ -123,12 +123,12 @@
         new(7, "Grace Park", "Reviewed analytics", DateTime.Now.AddDays(-2), "Pending"),
     }.AsQueryable();
 
-    private BadgeAppearance GetStatusAppearance(string status) => status switch
+    private string GetStatusStyle(string status) => status switch
     {
-        "Completed" => BadgeAppearance.Filled,
-        "Pending" => BadgeAppearance.Tint,
-        "In Progress" => BadgeAppearance.Ghost,
-        _ => BadgeAppearance.Outline,
+        "Completed" => "display:inline-block; padding:2px 10px; border-radius:var(--borderRadiusMedium); font-size:var(--fontSizeBase200); font-weight:var(--fontWeightSemibold); background-color:var(--colorStatusSuccessBackground2); color:var(--colorStatusSuccessForeground2);",
+        "Pending" => "display:inline-block; padding:2px 10px; border-radius:var(--borderRadiusMedium); font-size:var(--fontSizeBase200); font-weight:var(--fontWeightSemibold); background-color:var(--colorStatusWarningBackground2); color:var(--colorStatusWarningForeground2);",
+        "In Progress" => "display:inline-block; padding:2px 10px; border-radius:var(--borderRadiusMedium); font-size:var(--fontSizeBase200); font-weight:var(--fontWeightSemibold); background-color:var(--colorNeutralBackground5); color:var(--colorNeutralForeground2);",
+        _ => "display:inline-block; padding:2px 10px; border-radius:var(--borderRadiusMedium); font-size:var(--fontSizeBase200); font-weight:var(--fontWeightSemibold); background-color:var(--colorNeutralBackground3); color:var(--colorNeutralForeground1);",
     };
 
     private record ActivityItem(int Id, string User, string Action, DateTime Date, string Status);
