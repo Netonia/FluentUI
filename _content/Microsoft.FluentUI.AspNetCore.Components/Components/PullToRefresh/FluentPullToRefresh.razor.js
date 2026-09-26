@@ -7,11 +7,16 @@ export var Microsoft;
             var PullToRefresh;
             (function (PullToRefresh) {
                 class PolyfilledTouch {
-                    target;
-                    identifier;
                     constructor(target, identifier, pos, deltaX = 0, deltaY = 0) {
                         this.target = target;
                         this.identifier = identifier;
+                        this.radiusX = 0;
+                        this.radiusY = 0;
+                        this.rotationAngle = 0;
+                        this.force = 0;
+                        this.altitudeAngle = 0;
+                        this.azimuthAngle = 0;
+                        this.touchType = "direct";
                         this.clientX = pos.clientX + deltaX;
                         this.clientY = pos.clientY + deltaY;
                         this.screenX = pos.screenX + deltaX;
@@ -19,19 +24,6 @@ export var Microsoft;
                         this.pageX = pos.pageX + deltaX;
                         this.pageY = pos.pageY + deltaY;
                     }
-                    clientX;
-                    clientY;
-                    screenX;
-                    screenY;
-                    pageX;
-                    pageY;
-                    radiusX = 0;
-                    radiusY = 0;
-                    rotationAngle = 0;
-                    force = 0;
-                    altitudeAngle = 0;
-                    azimuthAngle = 0;
-                    touchType = "direct";
                 }
                 let emulatorInitialized = false;
                 function GetScrollDistToTop() {
@@ -155,3 +147,4 @@ export var Microsoft;
         })(Blazor = FluentUI.Blazor || (FluentUI.Blazor = {}));
     })(FluentUI = Microsoft.FluentUI || (Microsoft.FluentUI = {}));
 })(Microsoft || (Microsoft = {}));
+//# sourceMappingURL=FluentPullToRefresh.razor.js.map
