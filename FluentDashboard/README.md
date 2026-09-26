@@ -1,6 +1,6 @@
 # Fluent Dashboard
 
-A modern dashboard built with **Blazor WebAssembly** and **[Fluent UI Blazor v5 RC1](https://github.com/microsoft/fluentui-blazor/tree/dev-v5)**.
+A modern dashboard built with **Blazor WebAssembly** and **Fluent UI Blazor v5**.
 
 ## Features
 
@@ -14,16 +14,16 @@ A modern dashboard built with **Blazor WebAssembly** and **[Fluent UI Blazor v5 
 
 | Layer | Technology |
 |-------|-----------|
-| UI Framework | [Fluent UI Blazor v5 RC1](https://www.nuget.org/packages/Microsoft.FluentUI.AspNetCore.Components/5.0.0-rc.1-26048.1) |
+| UI Framework | Microsoft.FluentUI.AspNetCore.Components v5.0.0 |
 | Hosting model | Blazor WebAssembly (standalone) |
-| Target framework | .NET 9 |
+| Target framework | .NET 10 |
 | Deployment | GitHub Pages via GitHub Actions |
 
 ## Getting Started
 
 ### Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
 
 ### Run locally
 
