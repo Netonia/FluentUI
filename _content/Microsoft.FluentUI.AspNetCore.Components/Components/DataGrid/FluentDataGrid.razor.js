@@ -794,16 +794,16 @@ export var Microsoft;
                         if (!colIndex) {
                             return offset;
                         }
-                        gridElement.querySelectorAll(`[col-index="${colIndex}"]`)
+                        gridElement.querySelectorAll(`:scope > thead > tr > [col-index="${colIndex}"], :scope > tbody > tr:not([row-state='detail-content']) > [col-index="${colIndex}"]`)
                             .forEach(cell => { cell.style[side] = offset + 'px'; });
                         return offset + headerWidth(header);
                     }
-                    const startPinnedHeaders = Array.from(gridElement.querySelectorAll("th[col-pinned='start']"));
+                    const startPinnedHeaders = Array.from(gridElement.querySelectorAll(":scope > thead > tr > th[col-pinned='start']"));
                     let startOffset = 0;
                     for (const header of startPinnedHeaders) {
                         startOffset = applyOffset(header, startOffset, 'insetInlineStart');
                     }
-                    const endPinnedHeaders = Array.from(gridElement.querySelectorAll("th[col-pinned='end']"));
+                    const endPinnedHeaders = Array.from(gridElement.querySelectorAll(":scope > thead > tr > th[col-pinned='end']"));
                     let endOffset = 0;
                     for (let i = endPinnedHeaders.length - 1; i >= 0; i--) {
                         endOffset = applyOffset(endPinnedHeaders[i], endOffset, 'insetInlineEnd');
